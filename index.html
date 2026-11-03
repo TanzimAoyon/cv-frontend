@@ -195,12 +195,11 @@
         }
 
         async function loadCV() {
-            const res = await fetch('/api/cv');
+            const res = await fetch('https://cautious-space-orbit-57qjrwq4745f44rr-3000.app.github.dev/api/cv', { cache: 'no-store' });
             const data = await res.json();
             const container = document.getElementById('cv-container');
             container.innerHTML = '';
             
-            // Group the data by 'section' heading
             const groupedData = {};
             data.forEach(item => {
                 if (!groupedData[item.section]) {
@@ -209,7 +208,6 @@
                 groupedData[item.section].push(item);
             });
 
-            // Loop through each group and create the HTML structure
             for (const sectionName in groupedData) {
                 let sectionHtml = `<div class="cv-section"><h2>${sectionName}</h2>`;
                 
@@ -243,8 +241,7 @@
                 return;
             }
 
-            // Using fetch to trigger the CREATE logic
-            await fetch('/api/cv', {
+            await fetch('https://cautious-space-orbit-57qjrwq4745f44rr-3000.app.github.dev/api/cv', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ section, content })
@@ -259,8 +256,7 @@
             const newContent = prompt("Enter updated content for " + currentSection + ":");
             
             if (newContent !== null && newContent.trim() !== "") {
-                // Using fetch to trigger the UPDATE logic
-                await fetch(`/api/cv/${id}`, {
+                await fetch(`https://cautious-space-orbit-57qjrwq4745f44rr-3000.app.github.dev/api/cv/${id}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ section: currentSection, content: newContent })
@@ -271,13 +267,11 @@
 
         async function deleteEntry(id) {
             if (confirm("Are you sure you want to delete this entry?")) {
-                // Using fetch to trigger the DELETE logic
-                await fetch(`/api/cv/${id}`, { method: 'DELETE' });
+                await fetch(`https://cautious-space-orbit-57qjrwq4745f44rr-3000.app.github.dev/api/cv/${id}`, { method: 'DELETE' });
                 loadCV(); 
             }
         }
 
-        // Load the CV when the page starts
         loadCV();
     </script>
 </body>
